@@ -1,0 +1,30 @@
+import 'package:f_weather_report/domain/entity/weather.dart';
+import 'package:f_weather_report/domain/repository/weather_repository.dart';
+import 'package:f_weather_report/util/disposable.dart';
+import 'package:rxdart/rxdart.dart';
+
+class WeeklyWeatherBloc extends Disposable {
+  WeeklyWeatherBloc() {
+    // DIしたい
+    var repository = WeatherRepository();
+
+    _actionController.stream.listen((event) {
+      repository.getCurrentWeatherApi();
+    });
+  }
+
+  // 天気情報を取得するactionを公開
+  final _actionController = PublishSubject<void>();
+  Sink<void> get getWeather => _actionController.sink;
+
+  // 天気データを提供するSubject
+  final _weeklyWeatherController =
+      BehaviorSubject<List<Weather>>.seeded(List<Weather>());
+  ValueStream<List<Weather>> get weeklyWeather => _weeklyWeatherController;
+
+  @override
+  Future<void> dispose() async {
+    await _actionController.close();
+    await _weeklyWeatherController.close();
+  }
+}
