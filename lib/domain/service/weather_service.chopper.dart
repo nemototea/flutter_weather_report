@@ -17,34 +17,21 @@ class _$WeatherService extends WeatherService {
   final definitionType = WeatherService;
 
   @override
-  Future<Response<dynamic>> getCurrentWeatherApi(
-      {String type, String id, String units, String lang, String apiKey}) {
-    final $url = '/$type';
-    final $params = <String, dynamic>{
-      'id': id,
-      'units': units,
-      'lang': lang,
-      'appid': apiKey
-    };
-    final $request = Request('GET', $url, client.baseUrl, parameters: $params);
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> getWeeklyWeatherApi(
-      {String type,
-      String lat,
+  Future<Response<dynamic>> getWeatherApi(
+      {String lat,
       String lon,
+      String apiKey,
+      String exclude,
       String units,
-      String lang,
-      String apiKey}) {
-    final $url = '/$type';
+      String lang}) {
+    final $url = '';
     final $params = <String, dynamic>{
       'lat': lat,
       'lon': lon,
+      'appid': apiKey,
+      'exclude': exclude,
       'units': units,
-      'lang': lang,
-      'appid': apiKey
+      'lang': lang
     };
     final $request = Request('GET', $url, client.baseUrl, parameters: $params);
     return client.send<dynamic, dynamic>($request);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:f_weather_report/util/disposable.dart';
 import 'package:f_weather_report/util/disposable_provider.dart';
-import 'package:f_weather_report/bloc/current_weather_bloc.dart';
+import 'package:f_weather_report/bloc/weather_bloc.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key key}) : super(key: key);
@@ -14,8 +14,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: DisposableProvider<CurrentWeatherBloc>(
-        create: (context) => CurrentWeatherBloc(),
+      body: DisposableProvider<WeatherBloc>(
+        create: (context) => WeatherBloc(),
         child: Container(
           alignment: Alignment.center,
           margin: EdgeInsets.all(30.0),

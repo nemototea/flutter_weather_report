@@ -8,32 +8,17 @@ class WeatherRepository {
   final WeatherService service =
       WeatherService.create(ChopperClientCreator.create());
 
-  Future<List<dynamic>> getCurrentWeatherApi({String id}) async {
-    final response = await service.getCurrentWeatherApi(
-      type: 'weather',
-      id: id,
+  Future<List<dynamic>> getWeather({String lat, String lon}) async {
+    final response = await service.getWeatherApi(
+      lat: lat,
+      lon: lon,
+      apiKey: ChopperClientCreator.apiKey,
+      exclude: 'minutely,hourly,alerts',
       units: ChopperClientCreator.units,
       lang: ChopperClientCreator.lang,
-      apiKey: ChopperClientCreator.apiKey,
     );
     if (response.isSuccessful) {
       final json = response.body as Map<String, dynamic>;
-//      return response.body['items'];
-    } else {
-      print(response.error);
-    }
-  }
-
-  Future<List<dynamic>> getWeeklyWeatherApi({String lat, String lon}) async {
-    final response = await service.getWeeklyWeatherApi(
-      type: 'onecall',
-      lat: lat,
-      lon: lon,
-      units: ChopperClientCreator.units,
-      lang: ChopperClientCreator.lang,
-      apiKey: ChopperClientCreator.apiKey,
-    );
-    if (response.isSuccessful) {
 //      return response.body['items'];
     } else {
       print(response.error);

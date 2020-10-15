@@ -33,8 +33,13 @@ dependencies:
 
   # 外部通信パッケージ。メジャーなhttpパッケージをラップしてretrofit的な使い心地になったやつ。
   chopper:
+  # JSONシリアライズ可能なオブジェクトとしてマークするアノテーション
+  json_annotation:
+  # ネットワーク要求をログに残す用
+  logging:
 
 
+# 開発に利用するライブラリ群。ビルド時にアプリには含まれない。
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -42,8 +47,10 @@ dev_dependencies:
   # 静的解析強化パッケージ(https://medium.com/flutter-jp/analysis-b8dbb19d3978)
   pedantic_mono:
 
+  # ソースコードの自動生成関連パッケージ(chopperで利用)
   build_runner:
   chopper_generator:
+  json_serializable:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

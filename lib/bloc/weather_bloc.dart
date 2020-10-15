@@ -3,13 +3,14 @@ import 'package:f_weather_report/domain/repository/weather_repository.dart';
 import 'package:f_weather_report/util/disposable.dart';
 import 'package:rxdart/rxdart.dart';
 
-class CurrentWeatherBloc extends Disposable {
-  CurrentWeatherBloc() {
+class WeatherBloc extends Disposable {
+  WeatherBloc() {
     // DIしたい
     var repository = WeatherRepository();
 
     _actionController.stream.listen((event) {
-      repository.getCurrentWeatherApi();
+      // TODO(nem): 東京と札幌の天気を取得する
+      repository.getWeather();
     });
   }
 
@@ -18,12 +19,12 @@ class CurrentWeatherBloc extends Disposable {
   Sink<void> get getWeather => _actionController.sink;
 
   // 天気データを提供するSubject
-  final _currentWeatherController = BehaviorSubject<Weather>.seeded(Weather());
-  ValueStream<Weather> get currentWeather => _currentWeatherController;
+  final _weatherController = BehaviorSubject<Weather>.seeded(Weather());
+  ValueStream<Weather> get weather => _weatherController;
 
   @override
   Future<void> dispose() async {
     await _actionController.close();
-    await _currentWeatherController.close();
+    await _weatherController.close();
   }
 }
