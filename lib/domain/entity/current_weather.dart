@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'current_weather.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class CurrentWeather {
   CurrentWeather({
     this.dt,
@@ -23,39 +23,40 @@ class CurrentWeather {
     this.weather,
   });
 
-  ​@JsonKey(name: 'dt')
-  ​int dt;
-  ​@JsonKey(name: 'sunrise')
-  ​int sunrise;
-  ​@JsonKey(name: 'sunset')
-  ​int sunset;
-  ​@JsonKey(name: 'temp')
-  ​int temp;
-  ​@JsonKey(name: 'feels_like')
-  ​int feelsLike;
-  ​@JsonKey(name: 'pressure')
-  ​int pressure;
-  ​@JsonKey(name: 'humidity')
-  ​int humidity;
-  ​@JsonKey(name: 'dew_point')
-  ​int dewPoint;
-  ​@JsonKey(name: 'clouds')
-  ​int clouds;
-  ​@JsonKey(name: 'uvi')
-  ​int uvi;
-  ​@JsonKey(name: 'visibility')
-  ​int visibility;
-  ​@JsonKey(name: 'wind_speed')
-  ​int windSpeed;
-  ​@JsonKey(name: 'wind_gust')
-  ​int windGust;
-  ​@JsonKey(name: 'wind_deg')
-  ​int windDeg;
-  ​@JsonKey(name: 'weather')
-  ​Weather weather;
-
   // ignore: lines_longer_than_80_chars
-  factory CurrentWeather.fromJson(Map<String, dynamic> json) => _$CurrentWeatherFromJson(json);
+  factory CurrentWeather.fromJson(Map<String, dynamic> json) =>
+      _$CurrentWeatherFromJson(json);
 
   Map<String, dynamic> toJson() => _$CurrentWeatherToJson(this);
+
+  @JsonKey(name: 'dt')
+  int dt;
+  @JsonKey(name: 'sunrise')
+  int sunrise;
+  @JsonKey(name: 'sunset')
+  int sunset;
+  @JsonKey(name: 'temp')
+  double temp;
+  @JsonKey(name: 'feelsLike')
+  double feelsLike;
+  @JsonKey(name: 'pressure')
+  int pressure;
+  @JsonKey(name: 'humidity')
+  int humidity;
+  @JsonKey(name: 'dew_point')
+  double dewPoint;
+  @JsonKey(name: 'clouds')
+  int clouds;
+  @JsonKey(name: 'uvi')
+  double uvi;
+  @JsonKey(name: 'visibility')
+  int visibility;
+  @JsonKey(name: 'wind_speed')
+  double windSpeed;
+  @JsonKey(name: 'wind_gust')
+  int windGust;
+  @JsonKey(name: 'wind_deg')
+  int windDeg;
+  @JsonKey(name: 'weather')
+  Weather weather;
 }

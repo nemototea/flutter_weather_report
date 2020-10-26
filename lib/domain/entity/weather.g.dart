@@ -10,7 +10,7 @@ Weather _$WeatherFromJson(Map<String, dynamic> json) {
   return Weather(
     id: json['id'] as int,
     main: json['main'] as String,
-    description: json['description'] as bool,
+    description: json['description'] as String,
     icon: json['icon'] as String,
   );
 }

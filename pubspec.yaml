@@ -37,6 +37,11 @@ dependencies:
   json_annotation:
   # ネットワーク要求をログに残す用
   logging:
+  # 日付の解析用
+  intl:
+
+  # プレースホルダ用
+  transparent_image:
 
 
 # 開発に利用するライブラリ群。ビルド時にアプリには含まれない。

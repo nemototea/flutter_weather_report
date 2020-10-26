@@ -1,14 +1,13 @@
 import 'package:chopper/chopper.dart';
 
-part 'weather_service.chopper.dart';
+part 'weather_api.chopper.dart';
 
 @ChopperApi(baseUrl: '')
-abstract class WeatherService extends ChopperService {
-  static WeatherService create([ChopperClient client]) =>
-      _$WeatherService(client);
+abstract class WeatherApi extends ChopperService {
+  static WeatherApi create([ChopperClient client]) => _$WeatherApi(client);
 
   @Get(path: '')
-  Future<Response> getWeatherApi({
+  Future<Response> getWeather({
     @Query('lat') String lat,
     @Query('lon') String lon,
     @Query('appid') String apiKey,
