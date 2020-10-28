@@ -6,8 +6,8 @@ import 'package:f_weather_report/domain/entity/daily_weathers.dart';
 import 'package:f_weather_report/domain/entity/extracted_current_weather.dart';
 import 'package:f_weather_report/domain/entity/extracted_daily_weather.dart';
 import 'package:f_weather_report/util/chopper_client_creator.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import 'package:rxdart/rxdart.dart';
 
 class WeatherRepository {
   // DIしたい
@@ -24,8 +24,7 @@ class WeatherRepository {
       lat: CityInfo.sapporoLat,
       lon: CityInfo.sapporoLon,
       apiKey: ChopperClientCreator.apiKey,
-      exclude: 'minutely',
-//      exclude: 'minutely,hourly,alerts',
+      exclude: 'minutely,hourly,alerts',
       units: ChopperClientCreator.units,
       lang: ChopperClientCreator.lang,
     );
@@ -72,8 +71,8 @@ class WeatherRepository {
       lang: ChopperClientCreator.lang,
     );
     if (response.isSuccessful) {
-      final dailyWeatherJson = response.body['daily'] as Map<String, dynamic>;
-      dailyWeathers = DailyWeathers.fromJson(dailyWeatherJson);
+      final responseJson = response.body as Map<String, dynamic>;
+      dailyWeathers = DailyWeathers.fromJson(responseJson);
 
       // Viewで扱う形のクラスに抽出して返す
       return _extractDailyWeathersData(dailyWeathers, cityID);
@@ -97,10 +96,10 @@ class WeatherRepository {
     return ExtractedCurrentWeather(
       cityName: '札幌',
       iconUrl:
-          'http://openweathermap.org/img/wn/${sapporo.weather.icon}@2x.png',
-      description: sapporo.weather.description,
+          'http://openweathermap.org/img/wn/${sapporo.weathers.first.icon}@2x.png',
+      description: sapporo.weathers.first.description,
       temperature: sapporo.temp.toString(),
-      diffFromTokyo: diff.toString(),
+      diffFromTokyo: diff.toStringAsFixed(2),
     );
   }
 
@@ -112,7 +111,9 @@ class WeatherRepository {
     // 日毎のデータを作成
     final extractedWeather = <ExtractedWeather>[];
     for (final weather in weathersData.dailyData) {
-      final date = DateTime.fromMillisecondsSinceEpoch(weather.dt).toLocal();
+      final date = DateTime.fromMillisecondsSinceEpoch(weather.dt * 1000);
+
+      initializeDateFormatting('ja_JP');
 
       extractedWeather.add(ExtractedWeather(
         date: DateFormat('MM/dd(E)', 'ja_JP').format(date),

@@ -1,3 +1,4 @@
+import 'package:f_weather_report/presentation/widgets/daily_weather_page.dart';
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 
@@ -6,8 +7,12 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HomePage(),
+    return MaterialApp(
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const HomePage(),
+        '/dailyWeather': (context) => const DailyWeatherPage(),
+      },
     );
   }
 }

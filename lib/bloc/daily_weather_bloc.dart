@@ -1,5 +1,6 @@
 import 'package:f_weather_report/domain/city_info.dart';
 import 'package:f_weather_report/domain/entity/extracted_current_weather.dart';
+import 'package:f_weather_report/domain/entity/extracted_daily_weather.dart';
 import 'package:f_weather_report/domain/entity/weather.dart';
 import 'package:f_weather_report/domain/repository/weather_repository.dart';
 import 'package:f_weather_report/util/disposable.dart';
@@ -19,49 +20,47 @@ import 'package:rxdart/rxdart.dart';
 /// ただし、reactive programming を推奨したい。
 /// (Implementation can be whatever you want if you follow the previous rules.)
 /// (But may I suggest reactive programming?).
-class WeatherBloc extends Disposable {
-  WeatherBloc() {
+class DailyWeatherBloc extends Disposable {
+  DailyWeatherBloc() {
     // DIしたい
     final repository = WeatherRepository();
 
-    _getCurrentWeatherController.stream.listen((_) {
-      repository
-          .getCurrentWeather()
-          .then((value) => _currentWeatherDataController.sink.add(value));
-    });
-
     _getForecastController.stream.listen((event) {
       if (event == CityInfo.tokyoID) {
-        repository.getDailyWeather(
-            cityID: event, lat: CityInfo.tokyoLat, lon: CityInfo.tokyoLon);
-        // getできた後の画面遷移のやり方を調査
+        repository
+            .getDailyWeather(
+              cityID: event,
+              lat: CityInfo.tokyoLat,
+              lon: CityInfo.tokyoLon,
+            )
+            .then((value) => _dailyWeatherDataController.sink.add(value));
       } else if (event == CityInfo.sapporoID) {
-        repository.getDailyWeather(
-            cityID: event, lat: CityInfo.sapporoLat, lon: CityInfo.sapporoLon);
+        repository
+            .getDailyWeather(
+              cityID: event,
+              lat: CityInfo.sapporoLat,
+              lon: CityInfo.sapporoLon,
+            )
+            .then((value) => _dailyWeatherDataController.sink.add(value));
       }
     });
   }
 
   // region Sink
-  final _getCurrentWeatherController = PublishSubject<void>();
-  Sink<void> get getCurrentWeather => _getCurrentWeatherController.sink;
-
   final _getForecastController = PublishSubject<String>();
   Sink<String> get getDailyWeather => _getForecastController.sink;
   // endregion
 
   // region Stream
-  final _currentWeatherDataController =
-      BehaviorSubject<ExtractedCurrentWeather>.seeded(
-          ExtractedCurrentWeather());
-  ValueStream<ExtractedCurrentWeather> get currentWeather =>
-      _currentWeatherDataController;
+  final _dailyWeatherDataController =
+      BehaviorSubject<ExtractedDailyWeather>.seeded(ExtractedDailyWeather());
+  ValueStream<ExtractedDailyWeather> get dailyWeather =>
+      _dailyWeatherDataController;
   // endregion
 
   @override
   Future<void> dispose() async {
-    await _getCurrentWeatherController.close();
     await _getForecastController.close();
-    await _currentWeatherDataController.close();
+    await _dailyWeatherDataController.close();
   }
 }

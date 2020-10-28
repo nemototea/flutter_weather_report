@@ -20,10 +20,9 @@ class CurrentWeather {
     this.windSpeed,
     this.windGust,
     this.windDeg,
-    this.weather,
+    this.weathers,
   });
 
-  // ignore: lines_longer_than_80_chars
   factory CurrentWeather.fromJson(Map<String, dynamic> json) =>
       _$CurrentWeatherFromJson(json);
 
@@ -58,5 +57,5 @@ class CurrentWeather {
   @JsonKey(name: 'wind_deg')
   int windDeg;
   @JsonKey(name: 'weather')
-  Weather weather;
+  List<Weather> weathers;
 }

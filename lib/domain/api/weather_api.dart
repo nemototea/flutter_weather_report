@@ -6,7 +6,7 @@ part 'weather_api.chopper.dart';
 abstract class WeatherApi extends ChopperService {
   static WeatherApi create([ChopperClient client]) => _$WeatherApi(client);
 
-  @Get(path: '')
+  @Get(path: 'onecall')
   Future<Response> getWeather({
     @Query('lat') String lat,
     @Query('lon') String lon,

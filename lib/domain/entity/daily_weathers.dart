@@ -12,6 +12,7 @@ class DailyWeathers {
 
   Map<String, dynamic> toJson() => _$DailyWeathersToJson(this);
 
+  @JsonKey(name: 'daily')
   List<DailyWeather> dailyData;
 }
 

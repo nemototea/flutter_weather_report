@@ -24,7 +24,7 @@ class _$WeatherApi extends WeatherApi {
       String exclude,
       String units,
       String lang}) {
-    final $url = '';
+    final $url = 'onecall';
     final $params = <String, dynamic>{
       'lat': lat,
       'lon': lon,

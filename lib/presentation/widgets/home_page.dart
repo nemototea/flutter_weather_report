@@ -2,7 +2,7 @@ import 'package:f_weather_report/domain/city_info.dart';
 import 'package:f_weather_report/domain/entity/extracted_current_weather.dart';
 import 'package:flutter/material.dart';
 import 'package:f_weather_report/util/disposable_provider.dart';
-import 'package:f_weather_report/bloc/weather_bloc.dart';
+import 'package:f_weather_report/bloc/current_weather_bloc.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class HomePage extends StatelessWidget {
@@ -11,8 +11,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: DisposableProvider<WeatherBloc>(
-        create: (context) => WeatherBloc(),
+      backgroundColor: Colors.white70,
+      body: DisposableProvider<CurrentWeatherBloc>(
+        create: (context) => CurrentWeatherBloc(),
         child: _Container(),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
@@ -22,7 +23,7 @@ class HomePage extends StatelessWidget {
 class _Container extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final weatherBloc = DisposableProvider.of<WeatherBloc>(context);
+    final weatherBloc = DisposableProvider.of<CurrentWeatherBloc>(context);
     return Container(
       alignment: Alignment.center,
       margin: const EdgeInsets.all(30),
@@ -42,12 +43,8 @@ class _Container extends StatelessWidget {
                   FadeInImage.memoryNetwork(
                     placeholder: kTransparentImage,
                     image: snapshot.data.iconUrl ?? '-',
-                    imageScale: 5,
+                    imageScale: 1,
                     repeat: ImageRepeat.noRepeat,
-                  ),
-                  Image.asset(
-                    'assets/images/jaco_pastorius.jpg',
-                    scale: 5,
                   ),
                   Text(
                     snapshot.data.description ?? '-',
@@ -89,8 +86,8 @@ class _Container extends StatelessWidget {
                     children: <Widget>[
                       RaisedButton(
                         onPressed: () {
-                          weatherBloc.getDailyWeather.add(CityInfo.sapporoID);
-                          // TODO 画面遷移
+                          Navigator.pushNamed(context, '/dailyWeather',
+                              arguments: CityInfo.sapporoID);
                         },
                         elevation: 10,
                         textColor: Colors.white,
@@ -111,8 +108,8 @@ class _Container extends StatelessWidget {
                       ),
                       RaisedButton(
                         onPressed: () {
-                          weatherBloc.getDailyWeather.add(CityInfo.tokyoID);
-                          // TODO 画面遷移
+                          Navigator.pushNamed(context, '/dailyWeather',
+                              arguments: CityInfo.tokyoID);
                         },
                         elevation: 10.0,
                         textColor: Colors.white,
@@ -144,7 +141,7 @@ class _Container extends StatelessWidget {
                       onPressed: () {
                         weatherBloc.getCurrentWeather.add(null);
                       },
-                      color: Colors.green,
+                      color: Colors.blue,
                       textColor: Colors.white,
                     ),
                   ),
@@ -159,7 +156,7 @@ class _Container extends StatelessWidget {
                       onPressed: () {
                         // TODO
                       },
-                      color: Colors.green,
+                      color: Colors.blue,
                       textColor: Colors.white,
                     ),
                   ),
@@ -174,7 +171,7 @@ class _Container extends StatelessWidget {
                       onPressed: () {
                         // TODO
                       },
-                      color: Colors.green,
+                      color: Colors.blue,
                       textColor: Colors.white,
                     ),
                   ),
