@@ -25,9 +25,22 @@ class CurrentWeatherBloc extends Disposable {
     // DIしたい
     final repository = WeatherRepository();
 
+    // 現在の天気取得イベントを監視
     _getCurrentWeatherController.stream.listen((_) {
       repository
           .getCurrentWeather()
+          .then((value) => _currentWeatherDataController.sink.add(value));
+    });
+
+    // DBへの保存イベントを監視
+    _saveToDBController.stream.listen((event) {
+      repository.saveToDatabase(event).then((value) => null);
+    });
+
+    // DBからの読み込みイベントを監視
+    _readFromDBController.stream.listen((event) {
+      repository
+          .readFromDatabase()
           .then((value) => _currentWeatherDataController.sink.add(value));
     });
   }
@@ -35,6 +48,12 @@ class CurrentWeatherBloc extends Disposable {
   // region Sink
   final _getCurrentWeatherController = PublishSubject<void>();
   Sink<void> get getCurrentWeather => _getCurrentWeatherController.sink;
+
+  final _saveToDBController = PublishSubject<ExtractedCurrentWeather>();
+  Sink<ExtractedCurrentWeather> get saveToDB => _saveToDBController.sink;
+
+  final _readFromDBController = PublishSubject<void>();
+  Sink<void> get readFromDB => _readFromDBController.sink;
   // endregion
 
   // region Stream
@@ -49,5 +68,7 @@ class CurrentWeatherBloc extends Disposable {
   Future<void> dispose() async {
     await _getCurrentWeatherController.close();
     await _currentWeatherDataController.close();
+    await _saveToDBController.close();
+    await _readFromDBController.close();
   }
 }

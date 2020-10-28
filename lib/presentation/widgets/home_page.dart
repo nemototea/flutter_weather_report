@@ -154,7 +154,7 @@ class _Container extends StatelessWidget {
                       ),
                       label: const Text('DBに保存'),
                       onPressed: () {
-                        // TODO
+                        weatherBloc.saveToDB.add(snapshot.data);
                       },
                       color: Colors.blue,
                       textColor: Colors.white,
@@ -169,7 +169,7 @@ class _Container extends StatelessWidget {
                       ),
                       label: const Text('DBから読み込み'),
                       onPressed: () {
-                        // TODO
+                        weatherBloc.readFromDB.add(null);
                       },
                       color: Colors.blue,
                       textColor: Colors.white,

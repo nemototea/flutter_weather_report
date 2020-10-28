@@ -43,6 +43,10 @@ dependencies:
   # プレースホルダ用
   transparent_image:
 
+  # DB
+  sqflite:
+  path_provider:
+
 
 # 開発に利用するライブラリ群。ビルド時にアプリには含まれない。
 dev_dependencies:

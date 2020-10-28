@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:f_weather_report/data/current_weather_cache.dart';
+import 'package:f_weather_report/data/database_provider.dart';
 import 'package:f_weather_report/domain/api/weather_api.dart';
 import 'package:f_weather_report/domain/city_info.dart';
 import 'package:f_weather_report/domain/entity/current_weather.dart';
@@ -82,9 +84,16 @@ class WeatherRepository {
     }
   }
 
-  // DBにキャッシュする関数を作成
+  /// DBにデータを保存する
+  Future<void> saveToDatabase(ExtractedCurrentWeather data) async {
+    await DBProvider.db.createWeather(_extractedDataToCache(data));
+  }
 
-  // DBからの読み出しを行う関数を作成
+  /// DBからの読み出しを行う
+  Future<ExtractedCurrentWeather> readFromDatabase() async {
+    final result = await DBProvider.db.readWeather();
+    return _cacheToExtractedData(result.first);
+  }
 
   // region privateメソッド
 
@@ -132,6 +141,28 @@ class WeatherRepository {
       weathers: extractedWeather,
     );
   }
+
+  /// 表示用の天気データをDB用のデータクラスに変換する
+  CurrentWeatherCache _extractedDataToCache(ExtractedCurrentWeather data) {
+    return CurrentWeatherCache(
+      cityName: data.cityName,
+      iconUrl: data.iconUrl,
+      description: data.description,
+      temperature: data.temperature,
+      diffFromTokyo: data.diffFromTokyo,
+    );
+  }
+
+  ExtractedCurrentWeather _cacheToExtractedData(CurrentWeatherCache data) {
+    return ExtractedCurrentWeather(
+      cityName: data.cityName,
+      iconUrl: data.iconUrl,
+      description: data.description,
+      temperature: data.temperature,
+      diffFromTokyo: data.diffFromTokyo,
+    );
+  }
+
   // endregion
 
 }
