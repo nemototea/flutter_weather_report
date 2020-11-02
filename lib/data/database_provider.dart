@@ -26,7 +26,7 @@ class DBProvider {
 
   Future<void> _createTable(Database db, int version) async {
     return db.execute('CREATE TABLE $_tableName ('
-        'id TEXT PRIMARY KEY,'
+        'id INTEGER PRIMARY KEY AUTOINCREMENT,'
         'cityName TEXT,'
         'iconUrl TEXT,'
         'description TEXT,'
@@ -46,12 +46,17 @@ class DBProvider {
   Future<List<CurrentWeatherCache>> readWeather() async {
     final db = await database;
     final result = await db.query(_tableName);
-    final list = result.isEmpty
-        ? List<CurrentWeatherCache>.empty()
-        : result
-            .map((e) => CurrentWeatherCache.fromMap(e as Map<String, String>))
-            .toList();
-    return list;
+
+    final currentWeatherList = <CurrentWeatherCache>[];
+
+    if (result.isNotEmpty) {
+      for (final element in result) {
+        final cache = CurrentWeatherCache.fromMap(element);
+        currentWeatherList.add(cache);
+      }
+    }
+
+    return currentWeatherList;
   }
 
   Future<int> updateWeather(CurrentWeatherCache weatherCache) async {

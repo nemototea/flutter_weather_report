@@ -10,26 +10,32 @@ class CurrentWeatherCache {
     @required this.diffFromTokyo,
   });
 
-  factory CurrentWeatherCache.fromMap(Map<String, String> json) =>
-      CurrentWeatherCache(
-        id: json['id'],
-        cityName: json['cityName'],
-        iconUrl: json['iconUrl'],
-        description: json['description'],
-        temperature: json['temperature'],
-        diffFromTokyo: json['diffFromTokyo'],
-      );
+  CurrentWeatherCache.fromMap(Map<String, dynamic> map) {
+    id = map['id'] as int;
+    cityName = map['cityName'] as String;
+    iconUrl = map['iconUrl'] as String;
+    description = map['description'] as String;
+    temperature = map['temperature'] as String;
+    diffFromTokyo = map['diffFromTokyo'] as String;
+  }
 
-  Map<String, String> toMap() => {
-        'id': id,
-        'cityName': cityName,
-        'iconUrl': iconUrl,
-        'description': description,
-        'temperature': temperature,
-        'diffFromTokyo': diffFromTokyo,
-      };
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{
+      'cityName': cityName,
+      'iconUrl': iconUrl,
+      'description': description,
+      'temperature': temperature,
+      'diffFromTokyo': diffFromTokyo,
+    };
 
-  String id;
+    if (id != null) {
+      map['id'] = id;
+    }
+
+    return map;
+  }
+
+  int id = 0;
   String cityName;
   String iconUrl;
   String description;
