@@ -2,7 +2,10 @@
 
 A Dart Weather Report App.
 
-Dartコードのみで外部通信・DB読み書き・画面遷移など一通り行うサンプル。
+This is example of
+* OpenWeatherMap  
+* Chopper
+* sqflite
 
 ## Getting Started
 
