@@ -6,6 +6,9 @@ This is example of
 * OpenWeatherMap  
 * Chopper
 * sqflite
+* BLoC Pattern
+* Sink/Stream
+* Provider
 
 ## Getting Started
 
