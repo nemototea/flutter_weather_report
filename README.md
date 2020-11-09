@@ -1,4 +1,4 @@
-# f_weather_report
+# flutter_weather_report
 
 A Dart Weather Report App.
 
